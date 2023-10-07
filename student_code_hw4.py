@@ -20,8 +20,7 @@ class HW4:
         3. Pass in the EightPuzzle object and use the A* search to solve.
         4. Return the solution.
         '''
-        
-        return None
+        return search(eight_puzzle).solution()
     
     def problem_1b(self, eight_puzzle, search):
         '''
@@ -31,8 +30,7 @@ class HW4:
         3. Pass in the EightPuzzle object and use the A* search to solve.
         4. Return the solution.
         '''
-
-        return None 
+        return search(eight_puzzle).solution() 
 
     def problem_2a(self, eight_puzzle, search):
         '''
@@ -43,8 +41,9 @@ class HW4:
             search with the manhattan distance heuristic        
         
         '''
-
-        return None
+        default_sol = search(eight_puzzle).solution()
+        manhattan_sol = search(eight_puzzle, h=self.manhattan).solution()
+        return (default_sol, manhattan_sol)
 
     def problem_2b(self, eight_puzzle, search):
         '''
@@ -54,7 +53,9 @@ class HW4:
             search with the manhattan distance heuristic 
         '''
         #  Put code for problem 2b here
-        return None
+        default_sol = search(eight_puzzle).solution()
+        manhattan_sol = search(eight_puzzle, h=self.manhattan).solution()
+        return (default_sol, manhattan_sol)
         
     def problem_3a(self):
      
@@ -67,17 +68,15 @@ class HW4:
         '''
     
         # Fill in the missing pieces 
-        #r_graph1_prob1 = None
-        #r_graph2_prob2 = None
-        #r1 = []
-        #r2 = []
-        #search_algorithms_list = None
-        #for algorithm in search_algorithms_list
-            #r1 = append solution for algorithm searching r_graph_prob1 to r1
-            #r2 = append solution for algotithm searching r_graph_prob2 to r2
-        #return results to main, and print them in main
-     
-        return None    
+        r_graph1_prob1 = GraphProblem("Timisoara", "Bucharest", romania_map)
+        r_graph2_prob2 = GraphProblem("Hirsova", "Sibiu", romania_map)
+        r1 = []
+        r2 = []
+        search_algorithms_list = [depth_first_graph_search, iterative_deepening_search, breadth_first_graph_search, uniform_cost_search, astar_search]
+        for algorithm in search_algorithms_list:
+            r1.append(algorithm(r_graph1_prob1).solution())
+            r2.append(algorithm(r_graph2_prob2).solution())
+        return r1, r2
 
     def problem_3b(self):
         '''
@@ -86,7 +85,7 @@ https://github.com/aimacode/aima-python/blob/master/search.py on compare_searche
         2. return the result from the compare searchers for searchers
            specified in problem 3
         '''
-        return None
+        return compare_searchers([GraphProblem("Hirsova", "Sibiu", romania_map)], header=['Search Algorithm', 'romania_map(Hirsova, Sibiu)'])
 
     # This assumes that the goal state is (1, 2, 3, 4, 5, 6, 7, 8, 0)
     def manhattan(self,node):
@@ -119,7 +118,17 @@ https://github.com/aimacode/aima-python/blob/master/search.py on compare_searche
                 - one for hill climbing on the 2nd peak finding problem(part b) 
             3.  Answer the questions for this problem in your HW4_YourName.pdf
         '''
-        return None
+        prob1 = PeakFindingProblem((0, 0),  [[1, 6, 11, 9],
+                                           [-2, 8, 10, 20],
+                                            [2, 3, 6, 12]])
+        res1 = hill_climbing(prob1)
+        
+        prob2 = PeakFindingProblem((1, 1),  [[1, 6, 11, 9],
+                                           [-2, 8, 10, 20],
+                                            [2, 3, 6, 12]])
+        res2 = hill_climbing(prob2)
+        
+        return res1, res2
 
 def main():
     
@@ -141,15 +150,15 @@ def main():
   
     print("Problem 1a")
     # Put code for problem 1a here
-
-
+    puzzle = EightPuzzle((0, 1, 3, 4, 2, 5, 7, 8, 6), (1, 2, 3, 4, 5, 6, 7, 8, 0))
+    print(hw4.problem_1a(puzzle, astar_search))
 
     #=======================
   
     print("Problem 1b")
     # Put code for problem 1b here
-
-
+    puzzle = EightPuzzle((2,1,3,4,6,5,7,8,0), (1, 2, 3, 4, 0, 5, 6, 7, 8))
+    print(hw4.problem_1b(puzzle, astar_search))
 
     #=======================
     '''
@@ -161,21 +170,29 @@ def main():
     2.  Answer the question for this problem in your HW2_YourName.pdf
     '''
     print("Problem 2a")
-
-  
+    puzzle = EightPuzzle((0, 1, 3, 4, 2, 5, 7, 8, 6))
+    # Checks whether the initialized configuration is solvable or not
+    puzzle.check_solvability((0, 1, 3, 4, 2, 5, 7, 8, 6))
+    default, manhattan = hw4.problem_2a(puzzle, astar_search)
+    print("Default Heuristic Solution: ", default)
+    print("Manhattan Heuristic Solution: ", manhattan)
 
     '''
     problem 2b - Use different start state (from question 1 b)
     '''
     print("Problem 2b")
     #  Put code for problem 2b here - format should be the same as 2a
-
+    puzzle = EightPuzzle((2, 1, 3, 4, 6, 5, 7, 8, 0))
+    puzzle.check_solvability((2, 1, 3, 4, 6, 5, 7, 8, 0))
+    default, manhattan = hw4.problem_2b(puzzle, astar_search)
+    print("Default Heuristic Solution: ", default)
+    print("Manhattan Heuristic Solution: ", manhattan)
     
     print("Problem 3a")
     #  Call method for Problem 3a here - format should be the same as 2a
-    #   solution1, solution2 = hw4.problem_3a()
-    #   print solution1
-    #   print solution2
+    solution1, solution2 = hw4.problem_3a()
+    print(solution1)
+    print(solution2)
     
 
     print("Problem 3b")
@@ -184,9 +201,10 @@ def main():
     
     #  Put code for Problem 4 here
     print("Problem 4")
-    #hc_Prob1, hc_Prob2 = hw4.problem_4()
+    hc_Prob1, hc_Prob2 = hw4.problem_4()
     #print row, column of solution for each problem
-
+    print(hc_Prob1)
+    print(hc_Prob2)
 
     
  

@@ -7,16 +7,33 @@ class HW6:
         pass
 
     def problem_1(self):
-        problem_1_list = [] #placeholder, populate this with your statements
+        problem_1_list = ['A ==> A', 
+                        '(A ==> B) ==> (~A ==> ~B)', 
+                        'A | B | ~B', 
+                        '(A ==> B) ==> (B ==> C)', 
+                        '(A ==> C) ==> ((A & B) ==> C)'
+                        ]
         results = [] # iteratively append the results to this
         #iterate over the problems and append the tt_true result to the list 
+        for prob in problem_1_list:
+            results.append(tt_true(prob))
+        
         #return the list of results
         return results
 
     def problem_2(self):
-        problem_2_list = [] #placeholder, populate this with your statements
+        problem_2_list = [
+            expr('E ==> E'),
+            expr('E ==> F'),
+            expr('(E & F) | ~F'),
+            expr('((G | B) & (~B | A)) ==> (G | A)'),
+            expr('(A ==> B) ==> (B ==> C)')
+        ] 
         results = [] # iteratively append the results to this
         #iterate over the problems and append the dpll_satisfiable result to the list 
+        for prob in problem_2_list:
+            results.append(dpll_satisfiable(prob))
+        
         #return the list of results
         return results
 

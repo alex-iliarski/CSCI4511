@@ -38,16 +38,28 @@ class HW6:
         return results
 
     def problem_3(self):
-        KB = None #placeholder, populate this with your statements
-        alpha = None #placeholder, populate this with your statements
+        KB = PropKB() #populate this with your statements
+        KB.tell(expr('My ==> ~Mo'))
+        KB.tell(expr('~My ==> (Mo & Ma)'))
+        KB.tell(expr('(~Mo | Ma) ==> H'))
+        KB.tell(expr('H ==> Mag'))
+        
+        alpha = expr('H') # checking if this is entailed in the KB
+        
         #pass in your KB and alpha and return the pl_resolution result
-        return None #placeholder
+        return pl_resolution(KB, alpha)
 
     def problem_4(self):
-        KB = None
-        alpha = None
+        KB = PropKB() # initialize knowledge base
+        KB.tell(expr('PSM ==> ~JG'))
+        KB.tell(expr('PSM | PLT'))
+        KB.tell(expr('PLT ==> JGC'))
+        
+        alpha = expr('JG ==> JGC') # checking if this is entailed in the KB
+        
         #return the pl_resolution result
-        return None #placeholder
+        return pl_resolution(KB, alpha)
+
 
 
 def main():
